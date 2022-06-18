@@ -17,27 +17,22 @@ using System.Web;
 
 namespace SanPoc
 {
-    public partial class Backend
+    public partial class WebApi
     {
         public static readonly string ClientID = "0a29b9ed-801e-47bf-8e38-12d9536e7b23";
         public static readonly string UserAgent = "SansarClient/1.0";
-
-        public static readonly Backend Instance = new Backend();
 
         private readonly HttpClient client = new HttpClient();
 
         private ServicesResponse Services { get; set; }
         private ExtractionResponse Extraction { get; set; }
-        private WebApiResponse WebApi { get; set; }
+        private WebApiResponse WebApiResponse { get; set; }
         private ClientConfigResponse ClientConfig { get; set; }
 
         private TokenResponse Token { get; set; }
         private DateTime TokenDate { get; set; }
 
-        public PersonasByAccountResponse.PayloadClass MyPersona { get; internal set; } = new PersonasByAccountResponse.PayloadClass();
-        public UserInfoResponse.PayloadClass MyUserInfo { get; internal set; } = new UserInfoResponse.PayloadClass();
-
-        private Backend()
+        public WebApi()
         {
             client.DefaultRequestHeaders.Add("Accept", "application/json");
         }
@@ -51,28 +46,12 @@ namespace SanPoc
         public async Task<UserInfoResponse> RequestUserInfo()
         {
             var result = await GetJsonAsync<UserInfoResponse>(Extraction.Services.Accounts.V1, "/user-info");
-
-            MyUserInfo = result.Payload;
-
             return result;
         }
 
         public async Task<PersonasByAccountResponse> RequestPersonaByAccount(string accountId)
         {
             var result = await GetJsonAsync<PersonasByAccountResponse>(Extraction.Services.Personas.V2, $"/persona/by-account/{accountId}");
-
-            if(accountId == MyUserInfo.AccountId)
-            {
-                foreach (var item in result.Payload)
-                {
-                    if(item.IsDefault)
-                    {
-                        MyPersona = item;
-                        break;
-                    }
-                }
-            }
-
             return result;
         }
 
@@ -155,12 +134,6 @@ namespace SanPoc
             var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(request);
 
             return PatchJsonAsync<ProfileResponse>(new Uri($"https://profiles-api.sansar.com/v1/profiles/{personaHandle}"), null, jsonPayload).Result;
-        }
-
-        public async Task<CatFactsResponse> GetCatFacts()
-        {
-            var result = await GetJsonAsync<CatFactsResponse>(new Uri($"https://catfact.ninja/facts?limit=100"));
-            return result;
         }
 
         public async Task<AccountConnectorResponse> GetAccountConnector()
@@ -408,7 +381,7 @@ namespace SanPoc
             Output("OK");
 
             Output("Discovering WebAPI services...");
-            WebApi = await GetJsonAsync<WebApiResponse>(Services.Domains.Webapi.V2);
+            WebApiResponse = await GetJsonAsync<WebApiResponse>(Services.Domains.Webapi.V2);
             Output("OK");
 
             //Output("Discovering ClientConfig...");
