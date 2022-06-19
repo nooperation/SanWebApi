@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SanBot.Json
+namespace SanWebApi.Json
 {
     public class SubscriptionsResponse
     {

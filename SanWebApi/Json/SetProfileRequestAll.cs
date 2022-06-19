@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SanBot.Json
+namespace SanWebApi.Json
 {
     public class SetProfileRequestAll
     {

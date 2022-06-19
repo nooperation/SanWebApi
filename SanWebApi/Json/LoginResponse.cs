@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SanPoc
+namespace SanWebApi
 {
     public class TokenResponse
     {
