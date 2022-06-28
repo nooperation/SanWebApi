@@ -136,6 +136,15 @@ namespace SanWebApi
             return PatchJsonAsync<ProfileResponse>(new Uri($"https://profiles-api.sansar.com/v1/profiles/{personaHandle}"), null, jsonPayload).Result;
         }
 
+        public async Task<MarketplaceCategoriesResponse> GetMarketplaceCategoriesAsync()
+        {
+            return await GetJsonAsync<MarketplaceCategoriesResponse>(WebApiResponse.Services.MarketplaceApi.V3, "/categories");
+        }
+        public async Task<BalanceResponse> GetBalanceAsync()
+        {
+            return await GetJsonAsync<BalanceResponse>(WebApiResponse.Services.MarketplaceApi.V3, "/user/balance");
+        }
+
         public async Task<AccountConnectorResponse> GetAccountConnector()
         {
             client.DefaultRequestHeaders.Add("X-Request-Id", "d7f4f6f0-ff5c-43a2-bb6b-d63f52ff7bff");
@@ -288,7 +297,7 @@ namespace SanWebApi
             return JsonConvert.DeserializeObject<T>(jsonResponse);
         }
 
-        private async Task<T> PostJsonAsync<T>(Uri serviceUri, string path = "", Dictionary<string, string> parameters = null)
+        private async Task<T> PostJsonAsync<T>(Uri serviceUri, string path = "", object payload = null)
         {
             UriBuilder builder = new UriBuilder(serviceUri);
             if (builder.Path.EndsWith('/'))
@@ -300,7 +309,7 @@ namespace SanWebApi
                 builder.Path += path;
             }
 
-            var json = JsonConvert.SerializeObject(parameters);
+            var json = JsonConvert.SerializeObject(payload);
             HttpContent content = new StringContent(json);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
@@ -383,21 +392,64 @@ namespace SanWebApi
             Output("Discovering WebAPI services...");
             WebApiResponse = await GetJsonAsync<WebApiResponse>(Services.Domains.Webapi.V2);
             Output("OK");
+            
+            Output("Getting grid status...");
+            var gridStatus = await GetJsonAsync<GridStatusResponse>(new Uri("https://sansar-asset-production.s3-us-west-2.amazonaws.com/bardo/grid-status.json"));
+            if(!gridStatus.Status)
+            {
+                Output($"FAIL: Grid is currently down: {gridStatus.Message}");
+                throw new Exception($"Grid is currently down: {gridStatus.Message}");
+            }
+            Output("OK");
 
-            //Output("Discovering ClientConfig...");
-            //ClientConfig = await GetJsonAsync<ClientConfigResponse>(WebApi.Services.Config.V1);
-            //Output("OK");
-            //
-            //Output("Getting Grid Status...");
-            //var gridStatus = await GetJsonAsync<GridStatusResponse>(Services.Services.GridStatus.V1);
-            //Output($"Grid status:\n  Status={gridStatus.Status}\n  Message={gridStatus.Message}");
-            //
             //Output("Getting software version...");
             //var softwareVersions = await GetJsonAsync<SoftwareVersionsResponse>(Services.Services.SoftwareVersions.V1);
             //Output($"Version: {softwareVersions.Version}");
 
+
+            //Output("Posting creepy tracking status..."); // we should not do this
+            //var response1 = await PostJsonAsync<string>(WebApiResponse.Services.Tracking.V1, "", new ExtTrackingPayload(){
+            //    eventname = "sansar_client_regNavigateToPage",
+            //    clienttimestamp = DateTime.Now,
+            //    clientversion = "43.5.5.1813481",
+            //    display_mode = "desktop",
+            //    grid = "",
+            //    trackerid = "",
+            //    macaddress = "12:34:56:78:9A:BC",
+            //    pageid = "login"
+            //});;
+            //Output(response1);
+
+
+            //Output("Checking profiles api V1...");
+            //var nullProfile = await GetJsonAsync<ProfilesResponse>(WebApiResponse.Services.ProfilesApi.V1, "/profiles", new Dictionary<string, string>()
+            //{
+            //    {"ids", "00000000-0000-0000-0000-000000000000"}
+            //});
+            //if(nullProfile.Errors.Length != 1 || nullProfile.Errors[0].Message != "Not Found")
+            //{
+            //    throw new Exception($"Unexpected profile response: {nullProfile}");
+            //}
+            //Output("OK");
+
+            //Output("Discovering ClientConfig...");
+            //ClientConfig = await GetJsonAsync<ClientConfigResponse>(WebApiResponse.Services.Config.V1);
+            //Output("OK");
+
+            //Output("Getting experiments...");
+            //var experiments = await GetJsonAsync<ExperimentsResponse>(WebApiResponse.Services.ProfilesApi.V1, "/experiments", new Dictionary<string, string>()
+            //{
+            //    {"clientId", "5e0c1e35-73cd-4e10-b1b1-a08cb86c6173"}
+            //});
+            //Output("OK");
+
+            //Output("Getting isEU response...");
+            //var isEuResponse = await GetJsonAsync<IsEUResponse>(WebApiResponse.Services.Account.V1, "/api/isEU");
+            //Output($"OK - europeanUnion={isEuResponse.europeanUnion}");
+
+
             Output("Getting token...");
-            var token = await PostAsync<TokenResponse>(Extraction.Services.Auth.V4, "/token", new Dictionary<string, string>() {
+            var token = await PostAsync<TokenResponse>(Extraction.Services.Auth.V3, "/token", new Dictionary<string, string>() {
                 {"client_id", ClientID},
                 {"client_secret", ""},
                 {"grant_type", "password"},
