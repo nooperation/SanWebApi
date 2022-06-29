@@ -53,7 +53,7 @@ namespace SanWebApi
             public long Level { get; set; }
         }
 
-        public partial class Error
+        public class Error
         {
             [JsonProperty("message")]
             public string Message { get; set; }

@@ -10,7 +10,7 @@ namespace SanWebApi.Json
         [JsonProperty("data")]
         public Datum[] Data { get; set; }
 
-        public partial class Datum
+        public class Datum
         {
             [JsonProperty("name")]
             public string Name { get; set; }
@@ -25,7 +25,7 @@ namespace SanWebApi.Json
             public GoalEvent GoalEvent { get; set; }
         }
 
-        public partial class GoalEvent
+        public class GoalEvent
         {
             [JsonProperty("category")]
             public string Category { get; set; }

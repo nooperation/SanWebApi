@@ -16,7 +16,37 @@ namespace SanWebApi.Json
         [JsonProperty("services")]
         public ServicesClass Services { get; set; }
 
-        public partial class DomainsClass
+        public class AssetDirector
+        {
+            [JsonProperty("v3")]
+            public Uri V3 { get; set; }
+        }
+
+        public class AssetDirectorOps
+        {
+            [JsonProperty("v3")]
+            public Uri V3 { get; set; }
+        }
+
+        public class AssetTemplate
+        {
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
+        }
+
+        public class Atlas
+        {
+            [JsonProperty("v3")]
+            public Uri V3 { get; set; }
+        }
+
+        public class AtlasOps
+        {
+            [JsonProperty("v3")]
+            public Uri V3 { get; set; }
+        }
+
+        public class DomainsClass
         {
             [JsonProperty("extraction")]
             public Extraction Extraction { get; set; }
@@ -25,34 +55,100 @@ namespace SanWebApi.Json
             public Webapi Webapi { get; set; }
         }
 
-        public partial class Extraction
+        public class Extraction
         {
             [JsonProperty("v2")]
             public Uri V2 { get; set; }
         }
 
-        public partial class Webapi
+        public class GridStatus
         {
-            [JsonProperty("v2")]
-            public Uri V2 { get; set; }
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
         }
 
-        public partial class ServicesClass
+        public class GridtoolApi
+        {
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
+        }
+
+        public class Inventory
+        {
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
+        }
+
+        public class InventoryOps
+        {
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
+        }
+
+        public class RegionConductor
+        {
+            [JsonProperty("v6")]
+            public Uri V6 { get; set; }
+        }
+
+        public class RegionConductorOps
+        {
+            [JsonProperty("v6")]
+            public Uri V6 { get; set; }
+        }
+
+        public class SansarAccount
+        {
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
+        }
+
+        public class SansarAccountOps
+        {
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
+        }
+
+        public class SansarLicenseBundler
+        {
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
+        }
+
+        public class SansarPersonas
+        {
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
+        }
+
+        public class SansarPersonasOps
+        {
+            [JsonProperty("v1")]
+            public Uri V1 { get; set; }
+        }
+
+        public class SansarScriptCompiler
+        {
+            [JsonProperty("v5")]
+            public Uri V5 { get; set; }
+        }
+
+        public class ServicesClass
         {
             [JsonProperty("asset-director")]
             public AssetDirector AssetDirector { get; set; }
 
             [JsonProperty("asset-director-ops")]
-            public AssetDirector AssetDirectorOps { get; set; }
+            public AssetDirectorOps AssetDirectorOps { get; set; }
 
             [JsonProperty("asset-template")]
             public AssetTemplate AssetTemplate { get; set; }
 
             [JsonProperty("atlas")]
-            public AssetDirector Atlas { get; set; }
+            public Atlas Atlas { get; set; }
 
             [JsonProperty("atlas-ops")]
-            public AssetDirector AtlasOps { get; set; }
+            public AtlasOps AtlasOps { get; set; }
 
             [JsonProperty("grid-status")]
             public GridStatus GridStatus { get; set; }
@@ -61,73 +157,49 @@ namespace SanWebApi.Json
             public GridtoolApi GridtoolApi { get; set; }
 
             [JsonProperty("inventory")]
-            public GridtoolApi Inventory { get; set; }
+            public Inventory Inventory { get; set; }
 
             [JsonProperty("inventory-ops")]
-            public GridtoolApi InventoryOps { get; set; }
+            public InventoryOps InventoryOps { get; set; }
 
             [JsonProperty("region-conductor")]
             public RegionConductor RegionConductor { get; set; }
 
             [JsonProperty("region-conductor-ops")]
-            public RegionConductor RegionConductorOps { get; set; }
+            public RegionConductorOps RegionConductorOps { get; set; }
 
             [JsonProperty("sansar-account")]
-            public GridtoolApi SansarAccount { get; set; }
+            public SansarAccount SansarAccount { get; set; }
 
             [JsonProperty("sansar-account-ops")]
-            public GridtoolApi SansarAccountOps { get; set; }
+            public SansarAccountOps SansarAccountOps { get; set; }
 
             [JsonProperty("sansar-license-bundler")]
-            public GridtoolApi SansarLicenseBundler { get; set; }
+            public SansarLicenseBundler SansarLicenseBundler { get; set; }
 
             [JsonProperty("sansar-personas")]
-            public GridtoolApi SansarPersonas { get; set; }
+            public SansarPersonas SansarPersonas { get; set; }
 
             [JsonProperty("sansar-personas-ops")]
-            public GridtoolApi SansarPersonasOps { get; set; }
+            public SansarPersonasOps SansarPersonasOps { get; set; }
 
             [JsonProperty("sansar-script-compiler")]
             public SansarScriptCompiler SansarScriptCompiler { get; set; }
 
             [JsonProperty("software-versions")]
-            public GridStatus SoftwareVersions { get; set; }
+            public SoftwareVersions SoftwareVersions { get; set; }
         }
 
-        public partial class AssetDirector
-        {
-            [JsonProperty("v3")]
-            public Uri V3 { get; set; }
-        }
-
-        public partial class AssetTemplate
-        {
-            [JsonProperty("v1")]
-            public string V1 { get; set; }
-        }
-
-        public partial class GridStatus
+        public class SoftwareVersions
         {
             [JsonProperty("v1")]
             public Uri V1 { get; set; }
         }
 
-        public partial class GridtoolApi
+        public class Webapi
         {
-            [JsonProperty("v1")]
-            public Uri V1 { get; set; }
-        }
-
-        public partial class RegionConductor
-        {
-            [JsonProperty("v6")]
-            public Uri V6 { get; set; }
-        }
-
-        public partial class SansarScriptCompiler
-        {
-            [JsonProperty("v5")]
-            public Uri V5 { get; set; }
+            [JsonProperty("v2")]
+            public Uri V2 { get; set; }
         }
 
 

@@ -11,15 +11,15 @@ namespace SanWebApi.Json
         public string Status { get; set; }
 
         [JsonProperty("message")]
-        public object[] Message { get; set; }
+        public List<object> Message { get; set; }
 
         [JsonProperty("codes")]
-        public object[] Codes { get; set; }
+        public List<object> Codes { get; set; }
 
         [JsonProperty("payload")]
         public PayloadClass Payload { get; set; }
 
-        public partial class PayloadClass
+        public class PayloadClass
         {
             [JsonProperty("account_id")]
             public string AccountId { get; set; }
@@ -49,10 +49,10 @@ namespace SanWebApi.Json
             public string Integrator { get; set; }
 
             [JsonProperty("credits")]
-            public object[] Credits { get; set; }
+            public List<object> Credits { get; set; }
         }
 
-        public partial class Product
+        public class Product
         {
             [JsonProperty("id")]
             public string Id { get; set; }

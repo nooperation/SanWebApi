@@ -19,23 +19,23 @@ namespace SanWebApi.Json
         [JsonProperty("services")]
         public ServicesClass Services { get; set; }
 
-        public partial class ConfigClass
+        public class ConfigClass
         {
             [JsonProperty("sansar_client_id")]
             public SansarClientId SansarClientId { get; set; }
         }
 
-        public partial class SansarClientId
+        public class SansarClientId
         {
             [JsonProperty("v1")]
             public string V1 { get; set; }
         }
 
-        public partial class DomainsClass
+        public class DomainsClass
         {
         }
 
-        public partial class ServicesClass
+        public class ServicesClass
         {
             [JsonProperty("accounts")]
             public Accounts Accounts { get; set; }
@@ -83,13 +83,13 @@ namespace SanWebApi.Json
             public Accounts Tos { get; set; }
         }
 
-        public partial class Accounts
+        public class Accounts
         {
             [JsonProperty("v1")]
             public Uri V1 { get; set; }
         }
 
-        public partial class Auth
+        public class Auth
         {
             [JsonProperty("v1")]
             public Uri V1 { get; set; }
@@ -104,7 +104,7 @@ namespace SanWebApi.Json
             public Uri V4 { get; set; }
         }
 
-        public partial class Personas
+        public class Personas
         {
             [JsonProperty("v1")]
             public Uri V1 { get; set; }
@@ -113,7 +113,7 @@ namespace SanWebApi.Json
             public Uri V2 { get; set; }
         }
 
-        public partial class PersonasSearch
+        public class PersonasSearch
         {
             [JsonProperty("v2")]
             public Uri V2 { get; set; }

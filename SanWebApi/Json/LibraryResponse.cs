@@ -8,9 +8,9 @@ namespace SanWebApi.Json
     public class LibraryResponse
     {
         [JsonProperty("items")]
-        public Item[] Items { get; set; }
+        public List<Item> Items { get; set; }
 
-        public partial class Item
+        public class Item
         {
             [JsonProperty("id")]
             public string Id { get; set; }
@@ -25,10 +25,10 @@ namespace SanWebApi.Json
             public string LicensorPid { get; set; }
 
             [JsonProperty("creation_time")]
-            public string CreationTime { get; set; }
+            public DateTime CreationTime { get; set; }
 
             [JsonProperty("modification_time")]
-            public string ModificationTime { get; set; }
+            public DateTime ModificationTime { get; set; }
 
             [JsonProperty("compat_version")]
             public string CompatVersion { get; set; }
@@ -52,7 +52,7 @@ namespace SanWebApi.Json
             public Revision[] Revisions { get; set; }
         }
 
-        public partial class Revision
+        public class Revision
         {
             [JsonProperty("asset_id")]
             public string AssetId { get; set; }
@@ -70,7 +70,7 @@ namespace SanWebApi.Json
             public string LicenseAssetId { get; set; }
 
             [JsonProperty("capabilities")]
-            public string[] Capabilities { get; set; }
+            public List<string> Capabilities { get; set; }
         }
     }
 }

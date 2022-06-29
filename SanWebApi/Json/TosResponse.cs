@@ -19,7 +19,7 @@ namespace SanWebApi.Json
         [JsonProperty("payload")]
         public PayloadClass Payload { get; set; }
 
-        public partial class PayloadClass
+        public class PayloadClass
         {
             [JsonProperty("signed_tos")]
             public bool SignedTos { get; set; }

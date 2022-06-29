@@ -16,7 +16,7 @@ namespace SanWebApi.Json
         [JsonProperty("services")]
         public ServicesClass Services { get; set; }
 
-        public partial class DomainsClass
+        public class DomainsClass
         {
             [JsonProperty("backend")]
             public Backend Backend { get; set; }
@@ -25,7 +25,7 @@ namespace SanWebApi.Json
             public Extraction Extraction { get; set; }
         }
 
-        public partial class Backend
+        public class Backend
         {
             [JsonProperty("v1")]
             public Uri V1 { get; set; }
@@ -34,13 +34,13 @@ namespace SanWebApi.Json
             public Uri V2 { get; set; }
         }
 
-        public partial class Extraction
+        public class Extraction
         {
             [JsonProperty("v2")]
             public Uri V2 { get; set; }
         }
 
-        public partial class ServicesClass
+        public class ServicesClass
         {
             [JsonProperty("account")]
             public Account Account { get; set; }
@@ -127,13 +127,13 @@ namespace SanWebApi.Json
             public Account Exmox { get; set; }
         }
 
-        public partial class Account
+        public class Account
         {
             [JsonProperty("v1")]
             public Uri V1 { get; set; }
         }
 
-        public partial class Api
+        public class Api
         {
             [JsonProperty("v1")]
             public Uri V1 { get; set; }
@@ -145,13 +145,13 @@ namespace SanWebApi.Json
             public Uri V3 { get; set; }
         }
 
-        public partial class Config
+        public class Config
         {
             [JsonProperty("v1")]
             public Uri V1 { get; set; }
         }
 
-        public partial class EventsApi
+        public class EventsApi
         {
             [JsonProperty("v1")]
             public Uri V1 { get; set; }

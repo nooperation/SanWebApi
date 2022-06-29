@@ -20,7 +20,7 @@ namespace SanWebApi.Json
         public string AppDesc { get; set; }
 
         [JsonProperty("roles")]
-        public object[] Roles { get; set; }
+        public List<object> Roles { get; set; }
 
         [JsonProperty("last_loc")]
         public string LastLoc { get; set; }

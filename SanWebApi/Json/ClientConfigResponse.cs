@@ -19,7 +19,7 @@ namespace SanWebApi.Json
         [JsonProperty("flags")]
         public FlagsClass Flags { get; set; }
 
-        public partial class CapabilityMappingClass
+        public class CapabilityMappingClass
         {
             [JsonProperty("animated")]
             public string Animated { get; set; }
@@ -64,7 +64,7 @@ namespace SanWebApi.Json
             public string Male { get; set; }
         }
 
-        public partial class ConfigClass
+        public class ConfigClass
         {
             [JsonProperty("ga")]
             public Ga Ga { get; set; }
@@ -76,19 +76,19 @@ namespace SanWebApi.Json
             public Links Links { get; set; }
         }
 
-        public partial class Ga
+        public class Ga
         {
             [JsonProperty("accountId")]
             public string AccountId { get; set; }
         }
 
-        public partial class Js
+        public class Js
         {
             [JsonProperty("allow-twitch-mature-stream")]
             public string AllowTwitchMatureStream { get; set; }
         }
 
-        public partial class Links
+        public class Links
         {
             [JsonProperty("avatar2-blog")]
             public Uri Avatar2Blog { get; set; }
@@ -121,7 +121,7 @@ namespace SanWebApi.Json
             public Uri QuestRewards { get; set; }
         }
 
-        public partial class ExmoxClass
+        public class ExmoxClass
         {
             [JsonProperty("campaign_id")]
             public string CampaignId { get; set; }
@@ -130,7 +130,7 @@ namespace SanWebApi.Json
             public string Token { get; set; }
         }
 
-        public partial class FlagsClass
+        public class FlagsClass
         {
             [JsonProperty("optimizeRegPath")]
             public OptimizeRegPath OptimizeRegPath { get; set; }
@@ -139,7 +139,7 @@ namespace SanWebApi.Json
             public OptimizeOnboarding OptimizeOnboarding { get; set; }
         }
 
-        public partial class OptimizeOnboarding
+        public class OptimizeOnboarding
         {
             [JsonProperty("enabled")]
             public bool Enabled { get; set; }
@@ -154,7 +154,7 @@ namespace SanWebApi.Json
             public GoalEvent GoalEvent { get; set; }
         }
 
-        public partial class GoalEvent
+        public class GoalEvent
         {
             [JsonProperty("category")]
             public string Category { get; set; }
@@ -163,7 +163,7 @@ namespace SanWebApi.Json
             public string Action { get; set; }
         }
 
-        public partial class OptimizeOnboardingVariants
+        public class OptimizeOnboardingVariants
         {
             [JsonProperty("downloadOnly")]
             public DownloadOnly DownloadOnly { get; set; }
@@ -172,7 +172,7 @@ namespace SanWebApi.Json
             public DownloadOnly DownloadWithOnboarding { get; set; }
         }
 
-        public partial class DownloadOnly
+        public class DownloadOnly
         {
             [JsonProperty("id")]
             public long Id { get; set; }
@@ -181,7 +181,7 @@ namespace SanWebApi.Json
             public long Distribution { get; set; }
         }
 
-        public partial class OptimizeRegPath
+        public class OptimizeRegPath
         {
             [JsonProperty("enabled")]
             public bool Enabled { get; set; }
@@ -196,7 +196,7 @@ namespace SanWebApi.Json
             public GoalEvent GoalEvent { get; set; }
         }
 
-        public partial class OptimizeRegPathVariants
+        public class OptimizeRegPathVariants
         {
             [JsonProperty("webFirst")]
             public DownloadOnly WebFirst { get; set; }

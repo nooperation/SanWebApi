@@ -10,7 +10,7 @@ namespace SanWebApi.Json
         [JsonProperty("connector_response")]
         public ConnectorResponseClass ConnectorResponse { get; set; }
 
-        public partial class ConnectorResponseClass
+        public class ConnectorResponseClass
         {
             [JsonProperty("status")]
             public long Status { get; set; }

@@ -17,10 +17,10 @@ namespace SanWebApi
         public string RefreshToken { get; set; }
 
         [JsonProperty("error")]
-        public string Error { get; set; }
+        public string? Error { get; set; }
 
         [JsonProperty("error_description")]
-        public string ErrorDescription { get; set; }
+        public string? ErrorDescription { get; set; }
 
         [JsonProperty("scope")]
         public string Scope { get; set; }
