@@ -233,46 +233,6 @@ namespace SanWebApi
             }
             Output("OK");
 
-            Output("Getting software version...");
-            var softwareVersions = await GetSoftwareVersionsAsync();
-            Output($"OK");
-
-
-            //Output("Posting creepy tracking status..."); // we should not do this
-            //var response1 = await PostJsonAsync<string>(WebApiResponse.Services.Tracking.V1, "", new ExtTrackingPayload(){
-            //    eventname = "sansar_client_regNavigateToPage",
-            //    clienttimestamp = DateTime.Now,
-            //    clientversion = "43.5.5.1813481",
-            //    display_mode = "desktop",
-            //    grid = "",
-            //    trackerid = "",
-            //    macaddress = "12:34:56:78:9A:BC",
-            //    pageid = "login"
-            //});;
-            //Output(response1);
-
-
-            Output("Checking profiles api V1...");
-            var nullProfile = await GetProfiles(new List<string>() { "00000000-0000-0000-0000-000000000000" });
-            if (nullProfile.Errors.Length != 1 || nullProfile.Errors[0].Message != "Not Found")
-            {
-                throw new Exception($"Unexpected profile response: {nullProfile}");
-            }
-            Output("OK");
-
-            Output("Discovering ClientConfig...");
-            ClientConfig = await GetClientConfigAsync();
-            Output("OK");
-
-            Output("Getting experiments...");
-            var experiements = await GetExperiementsAsync();
-            Output("OK");
-
-            Output("Getting isEU response...");
-            var isEuResponse = await GetIsEUAsync();
-            Output($"  isEU = {isEuResponse.EuropeanUnion}");
-            Output($"OK");
-
             Output("Getting token...");
             var token = await GetTokenAsync(username, password);
             Output("OK");

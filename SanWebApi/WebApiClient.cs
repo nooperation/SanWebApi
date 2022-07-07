@@ -216,6 +216,11 @@ namespace SanWebApi
         {
             return await GetJsonAsync<ServicesResponse>(new Uri("https://api.sansar.com/v2/services/"));
         }
+        public async Task<ProfileDetailsResponse> GetProfileDetails(string personaId)
+        {
+            return await GetJsonAsync<ProfileDetailsResponse>(WebApi.Services.ProfilesApi.V1, $"/details/{personaId}");
+        }
+
 
         public async Task<TokenResponse> GetTokenAsync(string username, string password)
         {
