@@ -131,7 +131,7 @@ namespace SanWebApi
 
         public async Task<AccountConnectorResponse> GetAccountConnectorAsync()
         {
-            client.DefaultRequestHeaders.Add("X-Request-Id", "d7f4f6f0-ff5c-43a2-bb6b-d63f52ff7bff");
+            client.DefaultRequestHeaders.Add("X-Request-Id", new Guid().ToString());
             client.DefaultRequestHeaders.Add("X-Sansar-Client-Big-Endian", "false");
             //client.DefaultRequestHeaders.Add("X-Sansar-Client-Cpu", "");
             //client.DefaultRequestHeaders.Add("X-Sansar-Client-Gpu", "");
@@ -148,7 +148,7 @@ namespace SanWebApi
             client.DefaultRequestHeaders.Add("X-Sansar-Client-Thread-Count", "16");
             client.DefaultRequestHeaders.Add("X-Sansar-Client-Type", "sansar-client");
             client.DefaultRequestHeaders.Add("X-Sansar-Client-Version", "40.12.0.1810783");
-            client.DefaultRequestHeaders.Add("X-Sansar-Session", "4ff1fa4f-1fce-f4f5-8f7a-2daf2fc210ff");
+            client.DefaultRequestHeaders.Add("X-Sansar-Session", new Guid().ToString());
 
             try
             {
