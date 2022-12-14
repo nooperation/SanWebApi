@@ -248,5 +248,117 @@ namespace SanWebApi
             Token = token;
             TokenDate = DateTime.Now;
         }
+
+        public async Task<MyStoresResponse> GetMyStores()
+        {
+            return await GetJsonAsync<MyStoresResponse>(WebApi.Services.MarketplaceApi.V1, $"/user/stores/");
+        }
+        
+        public async Task<GetUploadUrlsResponse> GetUploadUrls(GetUploadUrlsRequest request)
+        {
+            return await PostJsonAsync<GetUploadUrlsResponse>(new Uri("https://asset-director-v3.sansar.com/v3"), "/asset/get-upload-urls/", payload: request);
+        }
+
+        public async Task UploadProductImage(string url, byte[] data)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "PUT";
+            request.ContentType = "image/png";
+
+            using (BinaryWriter bw = new BinaryWriter(await request.GetRequestStreamAsync()))
+            {
+                bw.Write(data);
+            }
+
+            var response = await request.GetResponseAsync();
+            response.Close();
+        }
+
+        public async Task UploadAsset(string url, GetUploadUrlsResponse.Headers headers, byte[] data)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "PUT";
+            request.ContentType = headers.ContentType[0];
+
+            request.Headers.Add("Content-Encoding", headers.ContentEncoding[0]);
+            request.Headers.Add("X-Amz-Acl", headers.XAmzAcl[0]);
+            request.Headers.Add("X-Amz-Meta-Be-At", headers.XAmzMetaBeAt[0]);
+            request.Headers.Add("X-Amz-Meta-Be-Cap", headers.XAmzMetaBeCap[0]);
+            request.Headers.Add("X-Amz-Meta-Be-Vers", headers.XAmzMetaBeVers[0]);
+
+            using (BinaryWriter bw = new BinaryWriter(await request.GetRequestStreamAsync()))
+            {
+                bw.Write(data);
+            }
+
+            var response = await request.GetResponseAsync();
+            response.Close();
+        }
+
+        public async Task<CreateListingResponse> CreateListing(CreateListingRequest request)
+        {
+            return await PostJsonAsync<CreateListingResponse>(WebApi.Services.MarketplaceApi.V1, $"/stores/{request.data.relationships.store.data.id}/products", payload: request);
+        }
+
+        public async Task<CreateListingResponse> SetListingImage(string productId, SetListingImageRequest request)
+        {
+            var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(request);
+            return await PatchJsonAsync<CreateListingResponse>(WebApi.Services.MarketplaceApi.V1, $"/products/{productId}", jsonParameters: jsonPayload);
+        }
+
+        public async Task<AddProductImageResponse> AddProductImage(AddProductImageRequest request)
+        {
+            return await PostJsonAsync<AddProductImageResponse>(WebApi.Services.MarketplaceApi.V1, $"/images", payload: request);
+        }
+
+        public async Task<CreateProductImageUrlResponse> CreateProductImageUrl()
+        {
+            return await GetJsonAsync<CreateProductImageUrlResponse>(new Uri("https://store.sansar.com/proxies/web/util/v1/sign?application=marketplace&contentType=image/png&resource=listings"));
+        }
+
+        public enum AssetType
+        {
+            Cluster,
+            Sound,
+            World,
+        }
+        public async Task<InventoryResponse.Item> PostInventoryItem(AssetType assetType, string assetName, string thumbnailId, string licenseAssetId, string personaId, string assetId, List<string> itemCapabilities)
+        {
+            int asset_hint = 0;
+            switch (assetType)
+            {
+                case AssetType.Cluster:
+                case AssetType.Sound:
+                    asset_hint = 1;
+                    break;
+                case AssetType.World:
+                    asset_hint = 2;
+                    break;
+                default:
+                    break;
+            }
+
+            var item = new AddInventoryItemRequest();
+            item.compat_version = "0fffba5e0fffba5e0fffba5e0fffba5e";
+            item.licensee_label = assetName;
+            item.licensor_label = assetName;
+            item.origin = 0;
+            item.state = 1;
+            item.licensor_pid = personaId;
+            item.revisions = new InventoryResponse.Revision[]
+            {
+                    new InventoryResponse.Revision()
+                    {
+                        asset_hint = asset_hint,
+                        asset_type = assetType.ToString(),
+                        asset_id = assetId,
+                        thumbnail_asset_id = thumbnailId,
+                        license_asset_id = licenseAssetId,
+                        capabilities = itemCapabilities.ToArray()
+                    },
+            };
+
+            return await PostJsonAsync<InventoryResponse.Item>(Services.Services.Inventory.V1, $"/inventory/", payload: item);
+        }
     }
 }
