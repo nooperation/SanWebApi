@@ -19,7 +19,7 @@ namespace SanWebApi
 {
     public partial class WebApiClient
     {
-        public event EventHandler<string>? OnOutput;
+        public event EventHandler<string> OnOutput;
 
         public static readonly string ClientID = "0a29b9ed-801e-47bf-8e38-12d9536e7b23";
         public static readonly string UserAgent = "SansarClient/1.0";
@@ -82,16 +82,8 @@ namespace SanWebApi
                 builder.Query = query.ToString();
             }
 
-            //Output("-----------------");
-            //Output(builder.Uri.ToString());
-            //Output("-----------------");
-
             var response = await client.GetAsync(builder.Uri);
             var jsonResponse = await response.Content.ReadAsStringAsync();
-
-            //Output("-----------------");
-            //Output(jsonResponse);
-            //Output("-----------------");
 
             response.EnsureSuccessStatusCode();
 
@@ -112,16 +104,8 @@ namespace SanWebApi
 
             HttpContent content = new FormUrlEncodedContent(parameters);
 
-            //Output("-----------------");
-            //Output(builder.Uri.ToString());
-            //Output("-----------------");
-
             var response = await client.PostAsync(builder.Uri, content);
             var jsonResponse = await response.Content.ReadAsStringAsync();
-
-           //Output("-----------------");
-           //Output(jsonResponse);
-           //Output("-----------------");
 
             response.EnsureSuccessStatusCode();
 
@@ -144,16 +128,8 @@ namespace SanWebApi
             HttpContent content = new StringContent(json);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            //Output("-----------------");
-            //Output(builder.Uri.ToString());
-            //Output("-----------------");
-
             var response = await client.PostAsync(builder.Uri, content);
             var jsonResponse = await response.Content.ReadAsStringAsync();
-
-            //Output("-----------------");
-            //Output(jsonResponse);
-            //Output("-----------------");
 
             response.EnsureSuccessStatusCode();
 
@@ -175,16 +151,8 @@ namespace SanWebApi
             HttpContent content = new StringContent(jsonParameters);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            //Output("-----------------");
-            //Output(builder.Uri.ToString());
-            //Output("-----------------");
-
             var response = await client.PatchAsync(builder.Uri, content);
             var jsonResponse = await response.Content.ReadAsStringAsync();
-
-            //Output("-----------------");
-            //Output(jsonResponse);
-            //Output("-----------------");
 
             response.EnsureSuccessStatusCode();
 
@@ -210,7 +178,7 @@ namespace SanWebApi
             OnOutput?.Invoke(this, message);
         }
 
-        public async Task Login(string username, string password)
+        public async Task Login(SecureString username, SecureString password)
         {
             Output("Discovering services...");
             Services = await GetServicesAsync();

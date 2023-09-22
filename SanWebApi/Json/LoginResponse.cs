@@ -5,24 +5,24 @@ namespace SanWebApi
     public class TokenResponse
     {
         [JsonProperty("access_token")]
-        public string AccessToken { get; set; }
+        public string AccessToken { get; set; } = default!;
 
         [JsonProperty("token_type")]
-        public string TokenType { get; set; }
+        public string TokenType { get; set; } = default!;
 
         [JsonProperty("expires_in")]
         public long ExpiresIn { get; set; }
 
         [JsonProperty("refresh_token")]
-        public string RefreshToken { get; set; }
+        public string RefreshToken { get; set; } = default!;
 
         [JsonProperty("error")]
-        public string? Error { get; set; }
+        public string Error { get; set; }
 
         [JsonProperty("error_description")]
-        public string? ErrorDescription { get; set; }
+        public string ErrorDescription { get; set; }
 
         [JsonProperty("scope")]
-        public string Scope { get; set; }
+        public string Scope { get; set; } = default!;
     }
 }

@@ -8,7 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -222,16 +224,41 @@ namespace SanWebApi
         }
 
 
-        public async Task<TokenResponse> GetTokenAsync(string username, string password)
+        public async Task<TokenResponse> GetTokenAsync(SecureString username, SecureString password)
         {
-            return await PostAsync<TokenResponse>(Extraction.Services.Auth.V3, "/token", new Dictionary<string, string>() {
-                {"client_id", ClientID},
-                {"client_secret", ""},
-                {"grant_type", "password"},
-                {"username", username},
-                {"password", password},
-                {"scope", "email,persona_info,persona_create,user_info,sansar_login,read_marketplace,write_marketplace,read_subscription_json,read_subscription,read_events,write_events,read_payment_method,write_payment_method,read_invoice,read_wallet,write_invoice,persona_id:default"},
-            });
+            var usernamePtr = IntPtr.Zero;
+            var passwordPtr = IntPtr.Zero;
+
+            try
+            {
+                // Convert the SecureString values to plain strings
+                usernamePtr = Marshal.SecureStringToGlobalAllocUnicode(username);
+                passwordPtr = Marshal.SecureStringToGlobalAllocUnicode(password);
+                var plainUsername = Marshal.PtrToStringUni(usernamePtr);
+                var plainPassword = Marshal.PtrToStringUni(passwordPtr);
+
+                // Make the API request with the plain strings
+                return await PostAsync<TokenResponse>(Extraction.Services.Auth.V3, "/token", new Dictionary<string, string>() {
+                    {"client_id", ClientID},
+                    {"client_secret", ""},
+                    {"grant_type", "password"},
+                    {"username", plainUsername},
+                    {"password", plainPassword},
+                    {"scope", "email,persona_info,persona_create,user_info,sansar_login,read_marketplace,write_marketplace,read_subscription_json,read_subscription,read_events,write_events,read_payment_method,write_payment_method,read_invoice,read_wallet,write_invoice,persona_id:default"},
+                });
+            }
+            finally
+            {
+                // Clear the memory used to store the plain strings
+                if (usernamePtr != IntPtr.Zero)
+                {
+                    Marshal.ZeroFreeGlobalAllocUnicode(usernamePtr);
+                }
+                if (passwordPtr != IntPtr.Zero)
+                {
+                    Marshal.ZeroFreeGlobalAllocUnicode(passwordPtr);
+                }
+            }
         }
 
         public async Task RefreshTokenAsync()
@@ -261,24 +288,20 @@ namespace SanWebApi
 
         public async Task UploadProductImage(string url, byte[] data)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "PUT";
-            request.ContentType = "image/png";
+            HttpClient httpClient = new HttpClient();
+            HttpContent httpContent = new ByteArrayContent(data);
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
 
-            using (BinaryWriter bw = new BinaryWriter(await request.GetRequestStreamAsync()))
-            {
-                bw.Write(data);
-            }
-
-            var response = await request.GetResponseAsync();
-            response.Close();
+            HttpResponseMessage response = await httpClient.PutAsync(url, httpContent);
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task UploadAsset(string url, GetUploadUrlsResponse.Headers headers, byte[] data)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "PUT";
-            request.ContentType = headers.ContentType[0];
+            HttpClient httpClient = new HttpClient();
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url);
+            request.Content = new ByteArrayContent(data);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue(headers.ContentType[0]);
 
             request.Headers.Add("Content-Encoding", headers.ContentEncoding[0]);
             request.Headers.Add("X-Amz-Acl", headers.XAmzAcl[0]);
@@ -286,13 +309,8 @@ namespace SanWebApi
             request.Headers.Add("X-Amz-Meta-Be-Cap", headers.XAmzMetaBeCap[0]);
             request.Headers.Add("X-Amz-Meta-Be-Vers", headers.XAmzMetaBeVers[0]);
 
-            using (BinaryWriter bw = new BinaryWriter(await request.GetRequestStreamAsync()))
-            {
-                bw.Write(data);
-            }
-
-            var response = await request.GetResponseAsync();
-            response.Close();
+            HttpResponseMessage response = await httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task<CreateListingResponse> CreateListing(CreateListingRequest request)
