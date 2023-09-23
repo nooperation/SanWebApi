@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SanWebApi.Json
+﻿namespace SanWebApi.Json
 {
     public class Backend
     {

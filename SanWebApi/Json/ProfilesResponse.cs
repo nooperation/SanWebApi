@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 
-namespace SanWebApi
+namespace SanWebApi.Json
 {
     public class ProfilesResponse
     {

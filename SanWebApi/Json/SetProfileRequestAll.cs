@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SanWebApi.Json
+﻿namespace SanWebApi.Json
 {
     public class SetProfileRequestAll
     {
@@ -18,7 +12,7 @@ namespace SanWebApi.Json
 
         public SetProfileRequestAll(string bio, string avatarImageAssetId)
         {
-            this.data = new Data()
+            data = new Data()
             {
                 avatarImageAssetId = avatarImageAssetId,
                 bio = bio

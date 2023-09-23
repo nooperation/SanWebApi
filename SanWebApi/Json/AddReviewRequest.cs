@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace SanWebApi.Json
+﻿namespace SanWebApi.Json
 {
 
     public class AddReviewRequest
     {
         public Data data { get; set; }
 
-        public AddReviewRequest(string itemId, string itemType="experience", int rating=5)
+        public AddReviewRequest(string itemId, string itemType = "experience", int rating = 5)
         {
             data = new Data()
             {

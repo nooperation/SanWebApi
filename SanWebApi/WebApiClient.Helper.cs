@@ -1,19 +1,7 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SanWebApi.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Reflection.Metadata.Ecma335;
-using System.Security;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Security;
 using System.Web;
+using Newtonsoft.Json;
+using SanWebApi.Json;
 
 namespace SanWebApi
 {
@@ -23,7 +11,7 @@ namespace SanWebApi
 
         public static readonly string ClientID = "0a29b9ed-801e-47bf-8e38-12d9536e7b23";
         public static readonly string UserAgent = "SansarClient/1.0";
-        public static readonly Dictionary<string, string> ProtoVersionPayload = new Dictionary<string, string>() {
+        public static readonly Dictionary<string, string> ProtoVersionPayload = new() {
             //{"proto", "fea57ee5fea57ee5fea57ee5fea57ee5" },
             //{"proto", "d017fa57d017fa57d017fa57d017fa57" }, // 2020-09-10 ?
             //{"proto", "f111f111f111f111f111f111f111f111" }, // 2020-09-18
@@ -33,7 +21,7 @@ namespace SanWebApi
             {"version", "0fffba5e0fffba5e0fffba5e0fffba5e" }
         };
 
-        private readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client = new();
 
         private ServicesResponse Services { get; set; }
         private ExtractionResponse Extraction { get; set; }

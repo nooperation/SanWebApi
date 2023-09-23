@@ -1,21 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SanWebApi.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection.Metadata.Ecma335;
+﻿using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Security;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
+using SanWebApi.Json;
 
 namespace SanWebApi
 {
@@ -74,7 +61,7 @@ namespace SanWebApi
             var result = await GetJsonAsync<ProfileResponse>(WebApi.Services.ProfilesApi.V1, $"/profiles/{handle}");
             return result;
         }
-        
+
         public async Task<ProfilesResponse> GetProfiles(List<string> personaIds)
         {
             var queryString = string.Join(",", personaIds);
@@ -203,7 +190,7 @@ namespace SanWebApi
         {
             return await GetJsonAsync<IsEUResponse>(WebApi.Services.Account.V1, "/api/isEU");
         }
-        
+
         public async Task<SoftwareVersionsResponse> GetSoftwareVersionsAsync()
         {
             return await GetJsonAsync<SoftwareVersionsResponse>(Services.Services.SoftwareVersions.V1);
@@ -280,7 +267,7 @@ namespace SanWebApi
         {
             return await GetJsonAsync<MyStoresResponse>(WebApi.Services.MarketplaceApi.V1, $"/user/stores/");
         }
-        
+
         public async Task<GetUploadUrlsResponse> GetUploadUrls(GetUploadUrlsRequest request)
         {
             return await PostJsonAsync<GetUploadUrlsResponse>(new Uri("https://asset-director-v3.sansar.com/v3"), "/asset/get-upload-urls/", payload: request);
@@ -292,15 +279,17 @@ namespace SanWebApi
             HttpContent httpContent = new ByteArrayContent(data);
             httpContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
 
-            HttpResponseMessage response = await httpClient.PutAsync(url, httpContent);
+            var response = await httpClient.PutAsync(url, httpContent);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task UploadAsset(string url, GetUploadUrlsResponse.Headers headers, byte[] data)
         {
             HttpClient httpClient = new HttpClient();
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url);
-            request.Content = new ByteArrayContent(data);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url)
+            {
+                Content = new ByteArrayContent(data)
+            };
             request.Content.Headers.ContentType = new MediaTypeHeaderValue(headers.ContentType[0]);
 
             request.Headers.Add("Content-Encoding", headers.ContentEncoding[0]);
@@ -309,7 +298,7 @@ namespace SanWebApi
             request.Headers.Add("X-Amz-Meta-Be-Cap", headers.XAmzMetaBeCap[0]);
             request.Headers.Add("X-Amz-Meta-Be-Vers", headers.XAmzMetaBeVers[0]);
 
-            HttpResponseMessage response = await httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
         }
 
@@ -342,7 +331,7 @@ namespace SanWebApi
         }
         public async Task<InventoryResponse.Item> PostInventoryItem(AssetType assetType, string assetName, string thumbnailId, string licenseAssetId, string personaId, string assetId, List<string> itemCapabilities)
         {
-            int asset_hint = 0;
+            var asset_hint = 0;
             switch (assetType)
             {
                 case AssetType.Cluster:
@@ -356,14 +345,15 @@ namespace SanWebApi
                     break;
             }
 
-            var item = new AddInventoryItemRequest();
-            item.compat_version = "0fffba5e0fffba5e0fffba5e0fffba5e";
-            item.licensee_label = assetName;
-            item.licensor_label = assetName;
-            item.origin = 0;
-            item.state = 1;
-            item.licensor_pid = personaId;
-            item.revisions = new InventoryResponse.Revision[]
+            var item = new AddInventoryItemRequest
+            {
+                compat_version = "0fffba5e0fffba5e0fffba5e0fffba5e",
+                licensee_label = assetName,
+                licensor_label = assetName,
+                origin = 0,
+                state = 1,
+                licensor_pid = personaId,
+                revisions = new InventoryResponse.Revision[]
             {
                     new InventoryResponse.Revision()
                     {
@@ -374,6 +364,7 @@ namespace SanWebApi
                         license_asset_id = licenseAssetId,
                         capabilities = itemCapabilities.ToArray()
                     },
+            }
             };
 
             return await PostJsonAsync<InventoryResponse.Item>(Services.Services.Inventory.V1, $"/inventory/", payload: item);

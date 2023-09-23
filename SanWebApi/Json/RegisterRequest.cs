@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SanWebApi.Json
+﻿namespace SanWebApi.Json
 {
     public class RegisterRequest
     {
@@ -21,7 +15,7 @@ namespace SanWebApi.Json
 
             this.username = username;
             this.password = password;
-            this.metadata = metadataPayload;
+            metadata = metadataPayload;
         }
 
         public class Metadata
@@ -32,8 +26,8 @@ namespace SanWebApi.Json
 
             public Metadata(string personaName)
             {
-                this.persona_name = personaName;
-                this.client_configuration = new Client_Configuration();
+                persona_name = personaName;
+                client_configuration = new Client_Configuration();
             }
 
             public override string ToString()

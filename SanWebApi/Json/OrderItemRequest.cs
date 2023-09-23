@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SanWebApi.Json
+﻿namespace SanWebApi.Json
 {
     public class OrderItemRequest
     {
@@ -12,7 +8,7 @@ namespace SanWebApi.Json
         {
             var newTrasnactionId = System.Guid.NewGuid().ToString();
 
-            this.data = new Data()
+            data = new Data()
             {
                 attributes = new Attributes()
                 {
