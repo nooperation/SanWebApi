@@ -234,6 +234,11 @@ namespace SanWebApi
                     {"scope", "email,persona_info,persona_create,user_info,sansar_login,read_marketplace,write_marketplace,read_subscription_json,read_subscription,read_events,write_events,read_payment_method,write_payment_method,read_invoice,read_wallet,write_invoice,persona_id:default"},
                 });
             }
+            catch (Exception ex)
+            {
+                Output("Failed to GetTokenAsync: " + ex.Message);
+                throw;
+            }
             finally
             {
                 // Clear the memory used to store the plain strings
